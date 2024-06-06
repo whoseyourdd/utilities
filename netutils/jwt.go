@@ -10,7 +10,7 @@ import (
 )
 
 type Claims struct {
-	Payload map[string]interface{} `json:"payload"`
+	Payload JwtPayload `json:"payload"`
 	jwt.RegisteredClaims
 }
 
