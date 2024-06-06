@@ -8,18 +8,18 @@ import (
 	"github.com/whoseyourdd/utilities"
 )
 
-func EncryptPayload(payload map[string]interface{}, key string) (map[string]interface{}, error) {
+func encryptPayload(payload map[string]interface{}, secretKey string) (map[string]interface{}, error) {
 	encryptedPayload := make(map[string]interface{})
 	for key, value := range payload {
 		switch v := value.(type) {
 		case string:
-			encryptedValue, err := utilities.Encrypt([]byte(v), key)
+			encryptedValue, err := utilities.Encrypt([]byte(v), secretKey)
 			if err != nil {
 				return nil, err
 			}
 			encryptedPayload[key] = string(encryptedValue)
 		case int, int8, int16, int32, int64, float32, float64, bool:
-			encryptedValue, err := utilities.Encrypt([]byte(fmt.Sprintf("%v", v)), key)
+			encryptedValue, err := utilities.Encrypt([]byte(fmt.Sprintf("%v", v)), secretKey)
 			if err != nil {
 				return nil, err
 			}
@@ -29,7 +29,7 @@ func EncryptPayload(payload map[string]interface{}, key string) (map[string]inte
 			if err != nil {
 				return nil, err
 			}
-			encryptedValue, err := utilities.Encrypt(jsonValue, key)
+			encryptedValue, err := utilities.Encrypt(jsonValue, secretKey)
 			if err != nil {
 				return nil, err
 			}
@@ -39,12 +39,12 @@ func EncryptPayload(payload map[string]interface{}, key string) (map[string]inte
 	return encryptedPayload, nil
 }
 
-func DecryptPayload(encryptedPayload map[string]interface{}, key string) (map[string]interface{}, error) {
+func decryptPayload(encryptedPayload map[string]interface{}, secretKey string) (map[string]interface{}, error) {
 	decryptedPayload := make(map[string]interface{})
 	for key, value := range encryptedPayload {
 		switch v := value.(type) {
 		case string:
-			decryptedValue, err := utilities.Decrypt(v, key)
+			decryptedValue, err := utilities.Decrypt(v, secretKey)
 			if err != nil {
 				return nil, err
 			}

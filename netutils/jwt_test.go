@@ -50,15 +50,15 @@ func TestTryEncrypt(t *testing.T) {
 			assert.NoError(t, err)
 
 			// Decrypt JWT token
-			decodedPayload, err := netutils.DecryptJWTToken(*jwt)
+			encryptedPayload, err := netutils.GetEncryptedClaims(*jwt)
 			if err != nil {
 				t.Fatalf("Error while decrypting JWT: %v\n", err)
 			}
+			fmt.Printf("Decoded payload: %+v\n", encryptedPayload)
 
-			// Get the decrypted payload
-			decryptedPayload, err := decodedPayload.GetPayload(secretKey)
+			decryptedPayload, err := netutils.GetDecryptedPayload(*jwt, secretKey)
 			if err != nil {
-				t.Fatalf("Failed to decode JWT: %v", err)
+				t.Fatalf("Error while decrypting JWT: %v\n", err)
 			}
 
 			// Print debug information
