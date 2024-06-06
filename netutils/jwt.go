@@ -16,7 +16,7 @@ type Claims struct {
 
 type JwtPayload map[string]interface{}
 
-func GenerateJWTToken(payload map[string]interface{}, key string) (*string, error) {
+func GenerateJWTToken(payload JwtPayload, key string) (*string, error) {
 	encryptedPayload, err := EncryptPayload(payload, key)
 	if err != nil {
 		return nil, errors.New("failed to encrypt payload")
