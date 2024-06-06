@@ -9,14 +9,14 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
+type JwtPayload map[string]interface{}
+
 type Claims struct {
-	Payload map[string]interface{} `json:"payload"`
+	Payload JwtPayload `json:"payload"`
 	jwt.RegisteredClaims
 }
 
-type JwtPayload map[string]interface{}
-
-func GenerateJWTToken(payload map[string]interface{}, key string) (*string, error) {
+func GenerateJWTToken(payload JwtPayload, key string) (*string, error) {
 	encryptedPayload, err := EncryptPayload(payload, key)
 	if err != nil {
 		return nil, errors.New("failed to encrypt payload")
